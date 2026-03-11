@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Lato:wght@300;400;700&display=swap');
+
+@font-face {
+  font-family: 'Hidayatullah';
+  src: url('/fonts/Hidayatullah.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* DARK THEME (default) */
+  :root,
+  .dark {
+    --background: 0 0% 6%;
+    --foreground: 40 20% 95%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 40 20% 95%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 40 20% 95%;
+
+    --primary: 38 35% 59%;
+    --primary-foreground: 0 0% 6%;
+
+    --secondary: 0 0% 11%;
+    --secondary-foreground: 40 20% 85%;
+
+    --muted: 0 0% 14%;
+    --muted-foreground: 40 10% 55%;
+
+    --accent: 38 35% 59%;
+    --accent-foreground: 0 0% 6%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 40 20% 95%;
+
+    --border: 38 10% 16%;
+    --input: 0 0% 14%;
+    --ring: 38 35% 59%;
+
+    --radius: 0.5rem;
+
+    --gold: 38 35% 59%;
+    --gold-light: 40 30% 72%;
+    --gold-dark: 36 40% 45%;
+    --cream: 40 20% 95%;
+    --cream-light: 40 15% 97%;
+    --cream-dark: 40 10% 80%;
+    --espresso: 0 0% 6%;
+    --espresso-light: 0 0% 18%;
+
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+    --font-accent: 'Cormorant Garamond', serif;
+
+    --shadow-soft: 0 4px 24px -4px hsl(38 35% 59% / 0.06);
+    --shadow-card: 0 8px 40px -8px hsl(0 0% 0% / 0.5);
+    --shadow-elevated: 0 20px 60px -12px hsl(0 0% 0% / 0.6);
+    --shadow-gold-glow: 0 0 30px -5px hsl(38 35% 59% / 0.15);
+    --gradient-gold: linear-gradient(135deg, hsl(38 35% 59%), hsl(40 30% 72%));
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 6% / 0.2) 0%, hsl(0 0% 6% / 0.85) 70%, hsl(0 0% 6%) 100%);
+    --gradient-cinematic: linear-gradient(180deg, transparent 0%, hsl(0 0% 6% / 0.4) 30%, hsl(0 0% 6% / 0.9) 80%, hsl(0 0% 6%) 100%);
+  }
+
+  /* LIGHT THEME */
+  .light {
+    --background: 37 30% 94%;
+    --foreground: 0 0% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 36 38% 54%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 36 25% 90%;
+    --secondary-foreground: 0 0% 15%;
+
+    --muted: 36 20% 91%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 36 38% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 36 18% 82%;
+    --input: 36 20% 91%;
+    --ring: 36 38% 54%;
+
+    --gold: 36 38% 54%;
+    --gold-light: 40 30% 65%;
+    --gold-dark: 34 42% 42%;
+    --cream: 37 30% 94%;
+    --cream-light: 40 20% 97%;
+    --cream-dark: 36 15% 75%;
+    --espresso: 0 0% 10%;
+    --espresso-light: 0 0% 25%;
+
+    --shadow-soft: 0 4px 24px -4px hsl(36 38% 54% / 0.1);
+    --shadow-card: 0 10px 30px -8px hsl(0 0% 0% / 0.08);
+    --shadow-elevated: 0 20px 60px -12px hsl(0 0% 0% / 0.12);
+    --shadow-gold-glow: 0 0 30px -5px hsl(36 38% 54% / 0.2);
+    --gradient-gold: linear-gradient(135deg, hsl(36 38% 54%), hsl(40 30% 65%));
+    --gradient-hero: linear-gradient(180deg, hsl(37 30% 94% / 0.2) 0%, hsl(37 30% 94% / 0.85) 70%, hsl(37 30% 94%) 100%);
+    --gradient-cinematic: linear-gradient(180deg, transparent 0%, hsl(37 30% 94% / 0.4) 30%, hsl(37 30% 94% / 0.9) 80%, hsl(37 30% 94%) 100%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .luxury-container {
+    @apply max-w-7xl mx-auto px-6 sm:px-8 lg:px-12;
+  }
+  .gold-divider {
+    @apply w-20 h-px mx-auto;
+    background: var(--gradient-gold);
+  }
+  .gold-divider-wide {
+    @apply w-full h-px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent);
+  }
+  .text-accent-font {
+    font-family: var(--font-accent);
+  }
+  .font-brand {
+    font-family: 'Hidayatullah', var(--font-display);
+    letter-spacing: 0.08em;
+  }
+  .section-padding {
+    @apply py-24 md:py-[120px];
+  }
+  .gold-glow-text {
+    text-shadow: 0 0 40px hsl(var(--primary) / 0.3), 0 0 80px hsl(var(--primary) / 0.1);
+  }
+
+  /* Nav link hover animation */
+  .nav-link {
+    @apply relative text-xs font-medium tracking-widest text-muted-foreground uppercase transition-colors duration-300;
+  }
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-0 transition-all duration-300;
+    background: var(--gradient-gold);
+  }
+  .nav-link:hover {
+    color: hsl(var(--primary));
+    text-shadow: 0 0 12px hsl(var(--primary) / 0.25);
+  }
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Premium button hover */
+  .btn-premium {
+    @apply relative transition-all duration-300;
+  }
+  .btn-premium:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 0 20px -4px hsl(var(--primary) / 0.35), 0 8px 20px -8px hsl(0 0% 0% / 0.3);
+  }
+}
+
+@layer utilities {
+  .shadow-luxury {
+    box-shadow: var(--shadow-soft);
+  }
+  .shadow-luxury-card {
+    box-shadow: var(--shadow-card);
+  }
+  .shadow-luxury-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+  .shadow-gold-glow {
+    box-shadow: var(--shadow-gold-glow);
+  }
+  .glow-breathe {
+    animation: glow-breathe 3s ease-in-out infinite;
+  }
+  @keyframes glow-breathe {
+    0%, 100% {
+      box-shadow: 0 0 20px -4px hsl(38 35% 59% / 0.15);
+    }
+    50% {
+      box-shadow: 0 0 35px -2px hsl(38 35% 59% / 0.35);
+    }
+  }
+  .bg-gradient-gold {
+    background: var(--gradient-gold);
+  }
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  .bg-gradient-cinematic {
+    background: var(--gradient-cinematic);
+  }
+}
+
+@keyframes gold-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
