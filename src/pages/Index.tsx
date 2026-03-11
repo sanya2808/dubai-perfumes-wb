@@ -288,17 +288,17 @@ const Index = () => {
       <div className="gold-divider-wide" />
 
       {/* ─── VISIT STORE ─── */}
-      <section className="relative overflow-hidden" style={{ height: '550px' }}>
+      <section className="relative overflow-hidden min-h-[400px] sm:h-[550px]">
         <img src={storeFrontImg} alt="Dubai Perfumes Store" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-background/75" />
-        <div className="relative h-full luxury-container flex flex-col justify-center items-center text-center">
+        <div className="relative h-full luxury-container flex flex-col justify-center items-center text-center py-16 sm:py-0">
           <motion.div {...sectionAnim}>
             <p className="text-accent-font text-sm tracking-[0.4em] uppercase text-primary mb-5">Experience In Person</p>
             <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-8">Visit Our Boutique</h2>
             <div className="gold-divider mb-10" />
-            <div className="flex items-center gap-8 text-muted-foreground text-sm mb-10 flex-wrap justify-center">
-              <span className="flex items-center gap-2"><MapPin size={14} className="text-primary" /> 4th Floor SSRF Building, near City Centre Mall</span>
-              <span className="flex items-center gap-2"><Clock size={14} className="text-primary" /> Open Daily 10AM–10PM</span>
+            <div className="flex items-center gap-4 sm:gap-8 text-muted-foreground text-sm mb-10 flex-wrap justify-center">
+              <span className="flex items-center gap-2"><MapPin size={14} className="text-primary shrink-0" /> 4th Floor SSRF Building, near City Centre Mall</span>
+              <span className="flex items-center gap-2"><Clock size={14} className="text-primary shrink-0" /> Open Daily 10AM–10PM</span>
             </div>
             <Link
               to="/visit-store"

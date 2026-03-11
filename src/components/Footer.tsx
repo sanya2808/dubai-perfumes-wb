@@ -3,9 +3,9 @@ import { Instagram, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 
 const Footer = () => (
   <footer className="bg-secondary border-t border-border/30">
-    <div className="luxury-container py-20">
+    <div className="luxury-container py-12 md:py-20">
       {/* Brand slogan */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-10 md:mb-16">
         <p className="text-accent-font text-sm tracking-[0.3em] uppercase text-primary mb-3">Established in Dubai</p>
         <h3 className="font-brand text-3xl md:text-4xl font-bold text-primary">
           DUBAI PERFUMES
@@ -17,7 +17,7 @@ const Footer = () => (
 
       <div className="gold-divider-wide mb-12" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
         <div>
           <h4 className="font-display text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-5">Collections</h4>
           <div className="space-y-3">
@@ -37,9 +37,9 @@ const Footer = () => (
         <div>
           <h4 className="font-display text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-5">Visit Us</h4>
           <div className="space-y-3 text-sm text-muted-foreground">
-            <p className="flex items-start gap-2">
+            <p className="flex items-start gap-2 text-xs sm:text-sm">
               <MapPin size={14} className="text-primary mt-0.5 shrink-0" />
-              DUBAI PERFUMES Shop no. 4020, 4th Floor, Shree Satyanarayan Roongta Forum (SSRF) Lavatenagar, Dr. Babasaheb Ambedkar Rd, next to City Centre Mall, Lavate Nager, Parijat Nagar, Nashik, Maharashtra 422002, India.
+              <span>DUBAI PERFUMES Shop no. 4020, 4th Floor, Shree Satyanarayan Roongta Forum (SSRF), Lavate Nagar, Nashik, Maharashtra 422002</span>
             </p>
             <p>Open Daily: 11:00 AM – 9:00 PM</p>
           </div>
@@ -64,7 +64,7 @@ const Footer = () => (
         </div>
       </div>
 
-      <div className="gold-divider-wide mt-16 mb-8" />
+      <div className="gold-divider-wide mt-10 md:mt-16 mb-6 md:mb-8" />
       <div className="text-center text-xs text-muted-foreground/60 tracking-wider">
         © 2026 DIP Dubai Perfumes. All rights reserved.
       </div>

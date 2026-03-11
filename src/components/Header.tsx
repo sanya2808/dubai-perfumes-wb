@@ -42,9 +42,6 @@ const perfumeSubmenu = [
 const mobileSecondaryLinks = [
   { label: 'Visit Store', to: '/visit-store', icon: MapPin },
   { label: 'Contact', to: '/contact', icon: Phone },
-  { label: 'Bakhoor', to: '/category/bakhoor', icon: MapPin },
-  { label: 'Candles', to: '/category/candles', icon: MapPin },
-  { label: 'Aroma Oils', to: '/category/aroma-oils', icon: MapPin },
   { label: 'Car & Home', to: '/category/car-home-fragrances', icon: MapPin },
 ];
 
