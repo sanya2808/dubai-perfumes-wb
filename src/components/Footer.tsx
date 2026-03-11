@@ -17,7 +17,36 @@ const Footer = () => (
 
       <div className="gold-divider-wide mb-12" />
 
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+      {/* Mobile Footer — simplified 3 links only */}
+      <div className="md:hidden flex flex-col items-center gap-5 py-2">
+        <Link to="/visit-store" className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-300">
+          Visit Us
+        </Link>
+        <Link to="/contact" className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-300">
+          Contact
+        </Link>
+        <Link to="/login" className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-300">
+          Login
+        </Link>
+        {/* Social icons on mobile */}
+        <div className="flex items-center gap-4 pt-2">
+          <a href="https://wa.me/917387874020" target="_blank" className="p-2.5 rounded-full border border-border/50 text-muted-foreground hover:border-primary hover:text-primary transition-all duration-300">
+            <MessageCircle size={16} />
+          </a>
+          <a href="https://www.instagram.com/dubaiperfumes_nsk" target="_blank" className="p-2.5 rounded-full border border-border/50 text-muted-foreground hover:border-primary hover:text-primary transition-all duration-300">
+            <Instagram size={16} />
+          </a>
+          <a href="tel:+917387874020" className="p-2.5 rounded-full border border-border/50 text-muted-foreground hover:border-primary hover:text-primary transition-all duration-300">
+            <Phone size={16} />
+          </a>
+          <a href="mailto:dubaiperfumesnashik@gmail.com" className="p-2.5 rounded-full border border-border/50 text-muted-foreground hover:border-primary hover:text-primary transition-all duration-300">
+            <Mail size={16} />
+          </a>
+        </div>
+      </div>
+
+      {/* Desktop Footer — full grid layout */}
+      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-12">
         <div>
           <h4 className="font-display text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-5">Collections</h4>
           <div className="space-y-3">
