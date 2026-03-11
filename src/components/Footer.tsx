@@ -29,7 +29,7 @@ const Footer = () => (
         <div>
           <h4 className="font-display text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-5">Experience</h4>
           <div className="space-y-3">
-            {[['Visit Our Boutique', '/visit-store'], ['Customer Reviews', '/reviews'], ['Contact Us', '/contact'], ['My Account', '/login']].map(([label, to]) => (
+            {[['Visit Our Boutique', '/visit-store'], ['Customer Reviews', '/reviews'], ['Contact Us', '/contact']].map(([label, to]) => (
               <Link key={to} to={to} className="block text-sm text-muted-foreground hover:text-primary transition-colors duration-300">{label}</Link>
             ))}
           </div>
