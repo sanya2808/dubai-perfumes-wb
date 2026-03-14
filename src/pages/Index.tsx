@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SEO from '@/components/SEO';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ArrowDown, Star, MapPin, Clock, Quote } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
@@ -57,6 +58,7 @@ const Index = () => {
 
   return (
     <div>
+      <SEO path="/" description="Shop luxury Arabic, Inspired & International perfumes at Dubai Perfumes Nashik. Premium attars, oud fragrances & more with free delivery." />
       {/* ─── HERO ─── */}
       <section ref={heroRef} className="relative h-[85vh] sm:h-screen min-h-[550px] sm:min-h-[700px] overflow-hidden">
         {/* Slideshow Background */}

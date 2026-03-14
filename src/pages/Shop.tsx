@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import SEO from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import ProductGrid from '@/components/ProductGrid';
@@ -27,6 +28,7 @@ const Shop = () => {
 
   return (
     <div className="luxury-container py-12">
+      <SEO title="Shop All Perfumes" description="Browse our complete collection of luxury perfumes. Arabic, Inspired & International fragrances at the best prices." path="/shop" />
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mb-12">
         <p className="text-accent-font text-sm tracking-[0.3em] uppercase text-primary mb-2">Collection</p>
         <h1 className="font-display text-4xl font-bold text-foreground">Shop All Perfumes</h1>
