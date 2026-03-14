@@ -1,9 +1,34 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MessageCircle, Instagram, Send } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const contactSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  subject: z.string().min(3, 'Subject must be at least 3 characters'),
+  message: z.string().min(10, 'Message must be at least 10 characters'),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
 
 const Contact = () => {
   const [sent, setSent] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: 'onTouched',
+  });
+
+  const onSubmit = (_data: ContactFormData) => {
+    setSent(true);
+  };
 
   return (
     <div className="luxury-container py-12">
@@ -23,24 +48,54 @@ const Contact = () => {
               <p className="text-muted-foreground text-sm">We'll get back to you within 24 hours.</p>
             </div>
           ) : (
-            <form onSubmit={e => { e.preventDefault(); setSent(true); }} className="bg-card rounded-lg p-8 shadow-luxury-card space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="bg-card rounded-lg p-8 shadow-luxury-card space-y-5">
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1 block">Name</label>
-                <input required className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                <input
+                  {...register('name')}
+                  className={`w-full px-4 py-3 bg-background border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 ${
+                    errors.name ? 'border-destructive focus:ring-destructive/30' : 'border-border'
+                  }`}
+                />
+                {errors.name && <p className="text-destructive text-xs mt-1">{errors.name.message}</p>}
               </div>
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1 block">Email</label>
-                <input type="email" required className="w-full px-4 py-3 bg-muted border border-border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                <input
+                  type="email"
+                  {...register('email')}
+                  className={`w-full px-4 py-3 bg-muted border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 ${
+                    errors.email ? 'border-destructive focus:ring-destructive/30' : 'border-border'
+                  }`}
+                />
+                {errors.email && <p className="text-destructive text-xs mt-1">{errors.email.message}</p>}
               </div>
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1 block">Subject</label>
-                <input required className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                <input
+                  {...register('subject')}
+                  className={`w-full px-4 py-3 bg-background border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 ${
+                    errors.subject ? 'border-destructive focus:ring-destructive/30' : 'border-border'
+                  }`}
+                />
+                {errors.subject && <p className="text-destructive text-xs mt-1">{errors.subject.message}</p>}
               </div>
               <div>
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1 block">Message</label>
-                <textarea required rows={5} className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" />
+                <textarea
+                  {...register('message')}
+                  rows={5}
+                  className={`w-full px-4 py-3 bg-background border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none ${
+                    errors.message ? 'border-destructive focus:ring-destructive/30' : 'border-border'
+                  }`}
+                />
+                {errors.message && <p className="text-destructive text-xs mt-1">{errors.message.message}</p>}
               </div>
-              <button type="submit" className="w-full px-8 py-4 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-sm rounded hover:bg-gold-dark transition-colors">
+              <button
+                type="submit"
+                disabled={!isValid}
+                className="w-full px-8 py-4 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-sm rounded hover:bg-gold-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 Send Message
               </button>
             </form>
