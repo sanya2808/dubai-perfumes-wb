@@ -80,6 +80,7 @@ const ProductCard = ({ product, index = 0, columnsPerRow = 4, expandedId, onTogg
             <img
               src={product.image}
               alt={product.name}
+              loading="lazy"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
