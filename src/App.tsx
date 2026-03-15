@@ -26,7 +26,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import CustomerDashboard from "./pages/CustomerDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import Reviews from "./pages/Reviews";
 import VisitStore from "./pages/VisitStore";
 import AboutUs from "./pages/AboutUs";
