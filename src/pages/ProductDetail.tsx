@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import SEO from '@/components/SEO';
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Clock, ArrowLeft, Wind, User, Tag, Heart } from 'lucide-react';
@@ -49,6 +50,13 @@ const ProductDetail = () => {
 
   return (
     <div className="luxury-container py-12">
+      <SEO
+        title={product.name}
+        description={product.description}
+        ogImage={product.image}
+        path={`/product/${product.id}`}
+        keywords={`${product.name}, ${product.brand || ''}, ${product.fragranceProfile?.join(', ') || ''}, perfume, luxury fragrance`}
+      />
       <Link to="/shop" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary text-sm mb-8">
         <ArrowLeft size={16} /> Back to Shop
       </Link>

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO';
 import { MapPin, Phone, Mail, Clock, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import storeFrontImg from '@/assets/store-front-real.jpg';
@@ -12,6 +13,7 @@ const sectionAnim = {
 
 const AboutUs = () => (
   <div>
+    <SEO title="About Us" description="Learn about Dubai Perfumes - our history, our passion for fragrances, and our commitment to luxury quality." path="/about" />
     {/* Hero */}
     <section className="relative h-72 overflow-hidden">
       <img src={storeFrontImg} alt="Dubai Perfumes About Us" className="absolute inset-0 w-full h-full object-cover" />

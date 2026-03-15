@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SEO from '@/components/SEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -271,6 +272,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Admin Dashboard" description="Manage Dubai Perfumes orders, inventory, and analytics." />
       <div className="luxury-container py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

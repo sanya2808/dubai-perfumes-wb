@@ -1,10 +1,15 @@
 import { useParams } from 'react-router-dom';
+import SEO from '@/components/SEO';
 import { motion } from 'framer-motion';
 import ProductGrid from '@/components/ProductGrid';
 import { getCategoryProducts, ProductCategory } from '@/data/products';
 import storeWideImg from '@/assets/store-wide.jpg';
 import attarShelf1 from '@/assets/attar-shelf-1.jpg';
 import attarShelf2 from '@/assets/attar-shelf-2.jpg';
+import carFresheners from '@/assets/car-fresheners.jpg';
+import goldenLamp from '@/assets/golden-lamp.jpg';
+import storeInterior from '@/assets/store-interior.jpg';
+import storePerfumesDisplay from '@/assets/store-perfumes-display.jpg';
 
 const titles: Record<ProductCategory, { title: string; subtitle: string; desc: string; banner: string }> = {
   inspired: {
@@ -25,6 +30,36 @@ const titles: Record<ProductCategory, { title: string; subtitle: string; desc: s
     desc: 'Authentic branded perfumes from the world\'s most prestigious fragrance houses.',
     banner: attarShelf2,
   },
+  'Car & Home Fragrance': {
+    title: 'Car & Home Fragrance',
+    subtitle: 'Premium Ambiance',
+    desc: 'Transform your space with our luxury car and home fragrances.',
+    banner: carFresheners,
+  },
+  Candles: {
+    title: 'Luxury Candles',
+    subtitle: 'Exquisite Aromas',
+    desc: 'Hand-poured candles with complex, captivating scents for your home.',
+    banner: goldenLamp,
+  },
+  Bakhoor: {
+    title: 'Bakhoor',
+    subtitle: 'Traditional Incense',
+    desc: 'Premium Bakhoor for a traditional and welcoming home atmosphere.',
+    banner: attarShelf1,
+  },
+  'Aroma Oils': {
+    title: 'Aroma Oils',
+    subtitle: 'Pure Essences',
+    desc: 'Concentrated aroma oils for diffusers and personal use.',
+    banner: storeInterior,
+  },
+  Perfume: {
+    title: 'Luxury Perfumes',
+    subtitle: 'Fine Fragrances',
+    desc: 'Our flagship collection of fine luxury perfumes.',
+    banner: storePerfumesDisplay,
+  },
 };
 
 const CategoryPage = () => {
@@ -37,6 +72,7 @@ const CategoryPage = () => {
 
   return (
     <div>
+      <SEO title={info.title} description={info.desc} ogImage={info.banner} path={`/category/${category}`} />
       {/* Banner */}
       <section className="relative h-56 overflow-hidden">
         <img src={info.banner} alt={info.title} className="absolute inset-0 w-full h-full object-cover" />

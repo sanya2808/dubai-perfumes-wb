@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO';
 import { MapPin, Clock, Phone, MessageCircle, Navigation } from 'lucide-react';
 import storeFrontImg from '@/assets/store-front-real.jpg';
 import storeWideImg from '@/assets/store-wide.jpg';
@@ -6,6 +7,7 @@ import storeShelfArchImg from '@/assets/store-shelf-arch.jpg';
 
 const VisitStore = () => (
   <div>
+    <SEO title="Visit Our Store" description="Experience our luxury perfumes in person. Visit Dubai Perfumes store in Nashik for a personalized fragrance consultation." path="/visit-store" />
     {/* Hero */}
     <section className="relative h-72 overflow-hidden">
       <img src={storeFrontImg} alt="Dubai Perfumes Store" className="absolute inset-0 w-full h-full object-cover" />

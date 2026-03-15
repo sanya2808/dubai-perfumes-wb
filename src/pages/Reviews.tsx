@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO';
 import { allProducts } from '@/data/products';
 import StarRating from '@/components/StarRating';
 
@@ -11,6 +12,7 @@ const Reviews = () => {
 
   return (
     <div className="luxury-container py-12">
+      <SEO title="Customer Reviews" description="Read what our customers say about Dubai Perfumes. Genuine reviews for our luxury fragrances and attars." path="/reviews" />
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mb-12">
         <p className="text-accent-font text-sm tracking-[0.3em] uppercase text-primary mb-2">Testimonials</p>
         <h1 className="font-display text-4xl font-bold text-foreground">Customer Reviews</h1>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { Link } from 'react-router-dom';
+import SEO from '@/components/SEO';
 import { CheckCircle, Gift, Truck } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -85,6 +86,7 @@ const Checkout = () => {
 
   return (
     <div className="luxury-container py-8 sm:py-12">
+      <SEO title="Checkout" description="Complete your purchase of luxury perfumes and attars safely and securely." path="/checkout" />
       <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground text-center mb-4">Checkout</h1>
       <div className="gold-divider mb-8 sm:mb-12" />
       <form onSubmit={handleSubmit(onSubmit)}>

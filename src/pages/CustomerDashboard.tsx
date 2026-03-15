@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO';
 import { useAuth } from '@/context/AuthContext';
 import { Link, Navigate } from 'react-router-dom';
 import { Package, Heart, Star, User, LogOut } from 'lucide-react';
@@ -10,6 +11,7 @@ const CustomerDashboard = () => {
 
   return (
     <div className="luxury-container py-12">
+      <SEO title="My Account" description="Manage your orders, favorites, and profile at Dubai Perfumes." path="/dashboard" />
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mb-12">
         <p className="text-accent-font text-sm tracking-[0.3em] uppercase text-primary mb-2">My Account</p>
         <h1 className="font-display text-4xl font-bold text-foreground">Welcome, {user?.name}</h1>

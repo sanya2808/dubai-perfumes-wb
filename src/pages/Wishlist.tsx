@@ -1,4 +1,5 @@
 import { useWishlist } from '@/context/WishlistContext';
+import SEO from '@/components/SEO';
 import { getProductById } from '@/data/products';
 import ProductGrid from '@/components/ProductGrid';
 import { Heart } from 'lucide-react';
@@ -10,6 +11,7 @@ const Wishlist = () => {
 
   return (
     <div className="luxury-container py-12">
+      <SEO title="Wishlist" description="View your favorite fragrances and attars saved at Dubai Perfumes." path="/wishlist" />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

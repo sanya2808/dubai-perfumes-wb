@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SEO from '@/components/SEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -171,6 +172,7 @@ const Login = () => {
 
   return (
     <div className="luxury-container py-20">
+      <SEO title="Sign In" description="Log in to your Dubai Perfumes account to manage orders and track your favorites." path="/login" />
       <AnimatePresence>
         {showOTPModal && (
           <OTPVerificationModal

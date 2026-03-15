@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SEO from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MessageCircle, Instagram, Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -32,6 +33,7 @@ const Contact = () => {
 
   return (
     <div className="luxury-container py-12">
+      <SEO title="Contact Us" description="Get in touch with Dubai Perfumes Nashik. We're here to help you find your perfect luxury scent." path="/contact" />
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mb-12">
         <p className="text-accent-font text-sm tracking-[0.3em] uppercase text-primary mb-2">Get In Touch</p>
         <h1 className="font-display text-4xl font-bold text-foreground">Contact Us</h1>

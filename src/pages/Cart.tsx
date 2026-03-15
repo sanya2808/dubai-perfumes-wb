@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SEO from '@/components/SEO';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
@@ -35,6 +36,7 @@ const Cart = () => {
 
   return (
     <div className="luxury-container py-8 sm:py-12">
+      <SEO title="Your Shopping Cart" description="Review your selected luxury fragrances before checkout. Secure your order from Dubai Perfumes." path="/cart" />
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mb-8 sm:mb-12">
         <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground">Shopping Cart</h1>
         <p className="text-muted-foreground mt-2 text-sm">{totalItems} item{totalItems > 1 ? 's' : ''}</p>
