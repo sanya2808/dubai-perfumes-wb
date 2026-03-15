@@ -4,7 +4,9 @@ import { statusColors } from './AdminOverview';
 
 const orderStatuses = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
 
-export const AdminOrders = ({ orders, updateOrderStatus }: { orders: any[], updateOrderStatus: (id: string, status: string) => void }) => {
+import { type FirestoreOrder } from '@/lib/api/orders';
+
+export const AdminOrders = ({ orders, updateOrderStatus }: { orders: FirestoreOrder[], updateOrderStatus: (id: string, status: string) => void }) => {
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   return (
@@ -28,7 +30,7 @@ export const AdminOrders = ({ orders, updateOrderStatus }: { orders: any[], upda
                     <td className="p-4 font-semibold text-foreground">{o.id}</td>
                     <td className="p-4 text-foreground">{o.customer}</td>
                     <td className="p-4 text-muted-foreground">{o.city}</td>
-                    <td className="p-4 text-muted-foreground text-xs">{o.products.join(', ')}</td>
+                    <td className="p-4 text-muted-foreground text-xs">{o.products?.join(', ') || o.items?.map((i: any) => i.name).join(', ')}</td>
                     <td className="p-4 text-foreground font-bold">₹{o.total}</td>
                     <td className="p-4 text-muted-foreground text-xs">{o.payment}</td>
                     <td className="p-4">

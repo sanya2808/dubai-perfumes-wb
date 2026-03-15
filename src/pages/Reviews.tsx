@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import SEO from '@/components/SEO';
-import { allProducts } from '@/data/products';
+import { useAllProducts } from '@/hooks/useProducts';
+import { allProducts as localProducts } from '@/data/products';
 import StarRating from '@/components/StarRating';
 
 const Reviews = () => {
+  const { data: allProducts = localProducts } = useAllProducts();
   const allReviews = allProducts.flatMap(p =>
     p.reviews.map(r => ({ ...r, productName: p.name, productId: p.id }))
   );

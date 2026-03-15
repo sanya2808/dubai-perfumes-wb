@@ -4,12 +4,13 @@ import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { Link } from 'react-router-dom';
 import SEO from '@/components/SEO';
-import { CheckCircle, Gift, Truck } from 'lucide-react';
+import { CheckCircle, Gift, Truck, Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import GiftOptions, { GiftData } from '@/components/GiftOptions';
 import DeliveryEstimator from '@/components/DeliveryEstimator';
+import { createOrder, decrementStock } from '@/lib/api/orders';
 
 const checkoutSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
@@ -35,8 +36,11 @@ const formFields = [
 
 const Checkout = () => {
   const { items, totalPrice, clearCart } = useCart();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [placed, setPlaced] = useState(false);
+  const [orderId, setOrderId] = useState('');
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [orderError, setOrderError] = useState('');
   const [deliveryEstimate, setDeliveryEstimate] = useState('');
   const [giftData, setGiftData] = useState<GiftData>({
     isGift: false, wrapGift: false, message: '', packageStyle: 'classic',
@@ -55,9 +59,52 @@ const Checkout = () => {
   const giftWrapCost = giftData.isGift && giftData.wrapGift ? 5 : 0;
   const finalTotal = totalPrice + giftWrapCost;
 
-  const onSubmit = (_data: CheckoutFormData) => {
-    setPlaced(true);
-    clearCart();
+  const onSubmit = async (data: CheckoutFormData) => {
+    setOrderLoading(true);
+    setOrderError('');
+    try {
+      const orderItems = items.map(item => ({
+        productId: item.productId,
+        name: item.name,
+        size: item.size,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+      }));
+
+      const newOrderId = await createOrder({
+        customer: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        city: data.city,
+        pinCode: data.pinCode,
+        items: orderItems,
+        products: items.map(i => `${i.name} (${i.size}) ×${i.quantity}`),
+        total: finalTotal,
+        status: 'Pending',
+        payment: 'Cash on Delivery',
+        isGift: giftData.isGift,
+        giftMessage: giftData.message || undefined,
+        giftWrap: giftData.wrapGift ? giftData.packageStyle : undefined,
+        date: new Date().toISOString().split('T')[0],
+        userId: user?.id || undefined,
+      });
+
+      // Decrement stock for each item
+      for (const item of items) {
+        await decrementStock(item.productId, item.quantity);
+      }
+
+      setOrderId(newOrderId);
+      setPlaced(true);
+      clearCart();
+    } catch (err: any) {
+      console.error('Order placement failed:', err);
+      setOrderError('Failed to place order. Please try again.');
+    } finally {
+      setOrderLoading(false);
+    }
   };
 
   if (placed) {
@@ -67,6 +114,9 @@ const Checkout = () => {
           <CheckCircle size={64} className="mx-auto text-primary mb-4" />
         </motion.div>
         <h1 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-4">Order Placed!</h1>
+        {orderId && (
+          <p className="text-primary font-mono font-semibold mb-2 text-sm">Order ID: {orderId}</p>
+        )}
         <p className="text-muted-foreground mb-6 text-sm sm:text-base">Thank you for your order. You'll receive a confirmation shortly.</p>
         <Link to="/shop" className="btn-premium inline-block px-8 py-3 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-sm rounded min-h-[44px]">
           Continue Shopping
@@ -181,12 +231,18 @@ const Checkout = () => {
             <div className="border-t border-border pt-4 flex justify-between font-display font-bold text-lg sm:text-xl text-foreground">
               <span>Total</span><span className="text-primary">₹{finalTotal.toFixed(2)}</span>
             </div>
+            {orderError && (
+              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-500">
+                {orderError}
+              </div>
+            )}
             <button
               type="submit"
-              disabled={!isValid}
-              className="btn-premium w-full px-8 py-4 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-sm rounded min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!isValid || orderLoading}
+              className="btn-premium w-full px-8 py-4 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-sm rounded min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              Place Order
+              {orderLoading && <Loader className="animate-spin" size={16} />}
+              {orderLoading ? 'Placing Order...' : 'Place Order'}
             </button>
           </div>
         </div>

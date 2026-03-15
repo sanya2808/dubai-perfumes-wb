@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import SEO from '@/components/SEO';
 import { motion } from 'framer-motion';
 import ProductGrid from '@/components/ProductGrid';
+import { useCategoryProducts } from '@/hooks/useProducts';
 import { getCategoryProducts, ProductCategory } from '@/data/products';
 import storeWideImg from '@/assets/store-wide.jpg';
 import attarShelf1 from '@/assets/attar-shelf-1.jpg';
@@ -66,7 +67,7 @@ const CategoryPage = () => {
   const { category } = useParams<{ category: string }>();
   const cat = category as ProductCategory;
   const info = titles[cat];
-  const products = getCategoryProducts(cat);
+  const { data: products = getCategoryProducts(cat) } = useCategoryProducts(cat);
 
   if (!info) return <div className="luxury-container py-20 text-center"><h1 className="font-display text-2xl text-foreground">Category not found</h1></div>;
 

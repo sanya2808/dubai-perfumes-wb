@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SEO from '@/components/SEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
@@ -19,6 +19,11 @@ import { AdminReviews } from './AdminReviews';
 import { AdminContent } from './AdminContent';
 import { AdminSettings } from './AdminSettings';
 import { allProducts } from '@/data/products';
+import { db } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { Database, RefreshCw } from 'lucide-react';
+import { toast } from 'sonner';
+import { subscribeToOrders, updateOrderStatus as firestoreUpdateOrderStatus, updateGiftStatus as firestoreUpdateGiftStatus, type FirestoreOrder } from '@/lib/api/orders';
 
 export interface Order {
   id: string; customer: string; phone: string; address: string; city: string;
@@ -44,11 +49,46 @@ const mockInventory = allProducts.map(p => ({
 const AdminDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
-  const [orders, setOrders] = useState(mockOrders);
+  const [orders, setOrders] = useState<FirestoreOrder[]>([]);
   const [inventory, setInventory] = useState(mockInventory);
   const [showNotifications, setShowNotifications] = useState(false);
 
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  // Real-time orders listener from Firestore
+  useEffect(() => {
+    const unsubscribe = subscribeToOrders(
+      (firestoreOrders) => {
+        setOrders(firestoreOrders);
+      },
+      (error) => {
+        console.error('Orders listener error:', error);
+        toast.error('Failed to load orders from database');
+      }
+    );
+    return () => unsubscribe();
+  }, []);
+
   if (!isAuthenticated || !user?.isAdmin) return <Navigate to="/login" />;
+
+  const syncToFirestore = async () => {
+    if (!confirm('This will upload all local products to Firestore. Continue?')) return;
+    
+    setIsSyncing(true);
+    try {
+      for (const product of allProducts) {
+        // Clean up any undefined fields or asset imports that might break
+        const cleanProduct = JSON.parse(JSON.stringify(product));
+        await setDoc(doc(db, 'products', product.id), cleanProduct);
+      }
+      toast.success('Successfully synced all products to Firestore!');
+    } catch (error: any) {
+      console.error('Migration error:', error);
+      toast.error('Failed to sync: ' + error.message);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
@@ -65,12 +105,22 @@ const AdminDashboard = () => {
 
   const pendingOrdersCount = orders.filter(o => o.status === 'Pending').length;
 
-  const updateOrderStatus = (orderId: string, newStatus: string) => {
-    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+  const updateOrderStatus = async (orderId: string, newStatus: string) => {
+    try {
+      await firestoreUpdateOrderStatus(orderId, newStatus);
+      toast.success(`Order ${orderId.slice(0, 8)}... status updated to ${newStatus}`);
+    } catch (err: any) {
+      toast.error('Failed to update order status: ' + err.message);
+    }
   };
 
-  const updateGiftStatus = (orderId: string, giftStatus: string) => {
-    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, giftStatus } : o));
+  const updateGiftStatusHandler = async (orderId: string, giftStatus: string) => {
+    try {
+      await firestoreUpdateGiftStatus(orderId, giftStatus);
+      toast.success('Gift status updated');
+    } catch (err: any) {
+      toast.error('Failed to update gift status: ' + err.message);
+    }
   };
 
   const updateStock = (productId: string, newStock: number) => {
@@ -149,6 +199,15 @@ const AdminDashboard = () => {
               style={{ display: showNotifications ? 'block' : 'none' }}
               aria-hidden="true"
             />
+            <button 
+              onClick={syncToFirestore} 
+              disabled={isSyncing}
+              className="flex items-center gap-2 px-4 py-2 text-primary hover:bg-primary/10 text-xs font-semibold border border-primary/20 rounded-lg transition-colors disabled:opacity-50"
+              title="Sync local products to Firestore"
+            >
+              <Database size={14} /> 
+              {isSyncing ? <RefreshCw size={14} className="animate-spin" /> : 'Sync Data'}
+            </button>
             <button onClick={logout} className="flex items-center gap-2 px-4 py-2 text-muted-foreground hover:text-destructive text-sm border border-border rounded-lg transition-colors">
               <LogOut size={14} /> Sign Out
             </button>
@@ -177,7 +236,7 @@ const AdminDashboard = () => {
             {activeTab === 'overview' && <AdminOverview orders={orders} inventory={inventory} />}
             {activeTab === 'products' && <AdminProducts inventory={inventory} />}
             {activeTab === 'orders' && <AdminOrders orders={orders} updateOrderStatus={updateOrderStatus} />}
-            {activeTab === 'gifts' && <AdminGifts orders={orders} updateGiftStatus={updateGiftStatus} />}
+            {activeTab === 'gifts' && <AdminGifts orders={orders} updateGiftStatus={updateGiftStatusHandler} />}
             {activeTab === 'offers' && <AdminOffers />}
             {activeTab === 'delivery' && <AdminDelivery />}
             {activeTab === 'inventory' && <AdminInventory inventory={inventory} updateStock={updateStock} />}

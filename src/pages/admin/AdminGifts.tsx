@@ -1,6 +1,7 @@
 import { statusColors } from './AdminOverview';
+import { type FirestoreOrder } from '@/lib/api/orders';
 
-export const AdminGifts = ({ orders, updateGiftStatus }: { orders: any[], updateGiftStatus: (id: string, status: string) => void }) => {
+export const AdminGifts = ({ orders, updateGiftStatus }: { orders: FirestoreOrder[], updateGiftStatus: (id: string, status: string) => void }) => {
   const giftOrders = orders.filter(o => o.isGift);
 
   return (
@@ -19,10 +20,9 @@ export const AdminGifts = ({ orders, updateGiftStatus }: { orders: any[], update
                 </div>
                 <span className={`text-[10px] font-bold px-3 py-1 rounded-full ${statusColors[o.status]}`}>{o.status}</span>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div><p className="text-[10px] text-muted-foreground uppercase tracking-wider">Recipient</p><p className="text-foreground font-semibold">{o.giftRecipient}</p></div>
-                <div><p className="text-[10px] text-muted-foreground uppercase tracking-wider">Gift Wrap</p><p className="text-foreground font-semibold">{o.giftWrap}</p></div>
-                <div><p className="text-[10px] text-muted-foreground uppercase tracking-wider">Message</p><p className="text-foreground italic text-xs">"{o.giftMessage}"</p></div>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm mt-4">
+                <div><p className="text-[10px] text-muted-foreground uppercase tracking-wider">Gift Wrap</p><p className="text-foreground font-semibold">{o.giftWrap || 'Standard'}</p></div>
+                <div className="md:col-span-2"><p className="text-[10px] text-muted-foreground uppercase tracking-wider">Message</p><p className="text-foreground italic text-xs">"{o.giftMessage || 'No message'}"</p></div>
                 <div>
                   <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Gift Status</p>
                   <select

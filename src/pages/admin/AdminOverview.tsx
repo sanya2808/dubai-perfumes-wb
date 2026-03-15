@@ -11,7 +11,9 @@ export const statusColors: Record<string, string> = {
   Cancelled: 'bg-destructive/10 text-destructive',
 };
 
-export const AdminOverview = ({ orders, inventory }: any) => {
+import { type FirestoreOrder } from '@/lib/api/orders';
+
+export const AdminOverview = ({ orders, inventory }: { orders: FirestoreOrder[], inventory: any[] }) => {
   const pendingOrders = orders.filter((o: any) => o.status === 'Pending').length;
   const todayOrders = orders.filter((o: any) => o.date === '2026-03-08').length; // Hardcoded in mock
   const totalRevenue = orders.filter((o: any) => o.status !== 'Cancelled').reduce((s: any, o: any) => s + o.total, 0);
@@ -39,7 +41,7 @@ export const AdminOverview = ({ orders, inventory }: any) => {
             <div key={o.id} className="flex items-center justify-between py-2 border-b border-border/30 last:border-0">
               <div>
                 <p className="text-sm font-semibold text-foreground">{o.id} — {o.customer}</p>
-                <p className="text-xs text-muted-foreground">{o.products.join(', ')}</p>
+                <p className="text-xs text-muted-foreground">{o.products?.join(', ') || o.items?.map((i: any) => i.name).join(', ')}</p>
               </div>
               <div className="flex items-center gap-3">
                 <span className="font-display font-bold text-foreground">₹{o.total}</span>

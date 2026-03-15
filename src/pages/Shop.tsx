@@ -3,9 +3,11 @@ import SEO from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import ProductGrid from '@/components/ProductGrid';
-import { allProducts, ProductCategory } from '@/data/products';
+import { useAllProducts } from '@/hooks/useProducts';
+import { allProducts as localProducts, ProductCategory } from '@/data/products';
 
 const Shop = () => {
+  const { data: allProducts = localProducts } = useAllProducts();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<ProductCategory | 'all'>('all');
   const [sort, setSort] = useState<'default' | 'low' | 'high'>('default');

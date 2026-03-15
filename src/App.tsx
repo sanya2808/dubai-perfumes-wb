@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { CartProvider, useCart } from "@/context/CartContext";
-import { AuthProvider } from "@/context/AuthContext";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { OffersProvider } from "@/context/OffersContext";
@@ -63,6 +63,19 @@ const AnimatedRoutes = () => {
 
 const AppContent = () => {
   const { isDrawerOpen, closeDrawer } = useCart();
+  const { loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+        <div className="w-16 h-16 relative mb-4">
+          <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
+          <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+        <p className="text-accent-font text-sm tracking-[0.3em] uppercase text-primary animate-pulse">Dubai Perfumes</p>
+      </div>
+    );
+  }
 
   return (
     <BrowserRouter>

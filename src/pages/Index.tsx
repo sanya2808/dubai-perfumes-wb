@@ -5,7 +5,8 @@ import { ArrowRight, ArrowDown, Star, MapPin, Clock, Quote } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react';
 import GoldenParticles from '@/components/GoldenParticles';
 import ProductGrid from '@/components/ProductGrid';
-import { getBestSellers, allProducts } from '@/data/products';
+import { useAllProducts, useBestSellers } from '@/hooks/useProducts';
+import { allProducts as localProducts, getBestSellers as localGetBestSellers } from '@/data/products';
 import storeInteriorImg from '@/assets/store-interior.jpg';
 import storeFrontImg from '@/assets/store-front-real.jpg';
 import storeWideImg from '@/assets/store-wide.jpg';
@@ -29,9 +30,10 @@ const categoryImages: Record<string, string> = {
 };
 
 const Index = () => {
-  const bestSellers = getBestSellers();
-  const signatureScents = allProducts.filter(p => p.isBestSeller).slice(0, 4);
-  const reviews = allProducts.flatMap(p => p.reviews).slice(0, 6);
+  const { data: products = localProducts } = useAllProducts();
+  const { data: bestSellers = localGetBestSellers() } = useBestSellers();
+  const signatureScents = products.filter(p => p.isBestSeller).slice(0, 4);
+  const reviews = products.flatMap(p => p.reviews).slice(0, 6);
   const [currentReview, setCurrentReview] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
 
