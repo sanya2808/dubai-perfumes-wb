@@ -14,18 +14,17 @@ import Header from "@/components/Header";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
-import OfferFloater from "@/components/OfferFloater";
+import AnnouncementBar from "@/components/AnnouncementBar";
 import PageTransition from "@/components/PageTransition";
 import TopLoadingBar from "@/components/TopLoadingBar";
 import ScrollToTop from "@/components/ScrollToTop";
+import LoginModal from "@/components/LoginModal";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import CategoryPage from "./pages/CategoryPage";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import Login from "./pages/Login";
-import CustomerDashboard from "./pages/CustomerDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import Reviews from "./pages/Reviews";
 import VisitStore from "./pages/VisitStore";
@@ -47,14 +46,13 @@ const AnimatedRoutes = () => {
         <Route path="/product/:id" element={<PageTransition><ProductDetail /></PageTransition>} />
         <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
         <Route path="/checkout" element={<PageTransition><Checkout /></PageTransition>} />
-        <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
-        <Route path="/dashboard" element={<PageTransition><CustomerDashboard /></PageTransition>} />
         <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
         <Route path="/reviews" element={<PageTransition><Reviews /></PageTransition>} />
         <Route path="/visit-store" element={<PageTransition><VisitStore /></PageTransition>} />
         <Route path="/about" element={<PageTransition><AboutUs /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
+        {/* /login and /dashboard removed — show 404 */}
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
@@ -68,14 +66,17 @@ const AppContent = () => {
     <BrowserRouter>
       <ScrollToTop />
       <TopLoadingBar />
+      {/* Announcement bar sits above the navbar */}
+      <AnnouncementBar />
       <Header />
       <CartDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
+      {/* Global login modal — available on every page */}
+      <LoginModal />
       <main className="min-h-screen">
         <AnimatedRoutes />
       </main>
       <Footer />
       <FloatingWhatsApp />
-      <OfferFloater />
     </BrowserRouter>
   );
 };

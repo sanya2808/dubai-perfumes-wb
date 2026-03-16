@@ -86,5 +86,18 @@
     "typescript-eslint": "^8.38.0",
     "vite": "^5.4.19",
     "vitest": "^3.2.4"
-  }
+  },
+  "description": "**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanya2808/dubai-perfumes-wb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanya2808/dubai-perfumes-wb/issues"
+  },
+  "homepage": "https://github.com/sanya2808/dubai-perfumes-wb#readme"
 }

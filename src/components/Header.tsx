@@ -42,7 +42,6 @@ const perfumeSubmenu = [
 const mobileSecondaryLinks = [
   { label: 'Visit Store', to: '/visit-store', icon: MapPin },
   { label: 'Contact', to: '/contact', icon: Phone },
-  { label: 'Car & Home', to: '/category/car-home-fragrances', icon: MapPin },
 ];
 
 // Gold ripple wrapper for menu items
@@ -97,7 +96,7 @@ const Header = () => {
   const moreRef = useRef<HTMLDivElement>(null);
   const { totalItems } = useCart();
   const { count: wishlistCount } = useWishlist();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, openLoginModal } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
@@ -236,6 +235,7 @@ const Header = () => {
                 {theme === 'dark' ? <Sun size={16} className="sm:w-[18px] sm:h-[18px]" /> : <Moon size={16} className="sm:w-[18px] sm:h-[18px]" />}
               </button>
 
+              {/* Wishlist — visible on all sizes */}
               <Link to="/wishlist" className="relative p-2 text-foreground hover:text-primary transition-colors">
                 <Heart size={18} className="sm:w-5 sm:h-5" />
                 {wishlistCount > 0 && (
@@ -245,7 +245,8 @@ const Header = () => {
                 )}
               </Link>
 
-              <Link to="/cart" className="relative p-2 text-foreground hover:text-primary transition-colors">
+              {/* Cart — hidden on mobile, visible sm+ */}
+              <Link to="/cart" className="relative p-2 text-foreground hover:text-primary transition-colors hidden sm:block">
                 <ShoppingBag size={18} className="sm:w-5 sm:h-5" />
                 {totalItems > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 sm:w-5 sm:h-5 bg-primary text-primary-foreground text-[10px] sm:text-xs rounded-full flex items-center justify-center font-bold">
@@ -254,12 +255,21 @@ const Header = () => {
                 )}
               </Link>
 
-              <Link
-                to={isAuthenticated ? (user?.isAdmin ? '/admin' : '/dashboard') : '/login'}
-                className="p-2 text-foreground hover:text-primary transition-colors hidden sm:block"
-              >
-                <User size={20} />
-              </Link>
+              {/* Profile / Login — visible on ALL sizes including mobile */}
+              {isAuthenticated ? (
+                <span className="flex items-center gap-1.5 text-xs font-semibold text-primary uppercase tracking-widest max-w-[80px] truncate px-1">
+                  <User size={15} />
+                  <span className="hidden sm:inline">{user?.name || 'Account'}</span>
+                </span>
+              ) : (
+                <button
+                  onClick={openLoginModal}
+                  className="p-2 text-foreground hover:text-primary transition-colors"
+                  aria-label="Login"
+                >
+                  <User size={20} />
+                </button>
+              )}
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -444,15 +454,14 @@ const Header = () => {
               </div>
 
               <div className="flex justify-center gap-8">
-                <Link
-                  to={isAuthenticated ? (user?.isAdmin ? '/admin' : '/dashboard') : '/login'}
-                  onClick={closeMobile}
+                <button
+                  onClick={() => { openLoginModal(); closeMobile(); }}
                   className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase transition-colors"
-                  style={{ color: 'rgba(245,245,245,0.45)' }}
+                  style={{ color: 'rgba(245,245,245,0.45)', background: 'none', border: 'none', cursor: 'pointer' }}
                 >
                   <User size={13} style={{ color: '#C6A96B' }} />
-                  {isAuthenticated ? 'Account' : 'Login'}
-                </Link>
+                  {isAuthenticated ? (user?.name || 'Account') : 'Login'}
+                </button>
                 <Link
                   to="/wishlist"
                   onClick={closeMobile}

@@ -1,18 +1,15 @@
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowDown, Star, MapPin, Clock, Quote } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
-import GoldenParticles from '@/components/GoldenParticles';
+import { motion } from 'framer-motion';
+import { ArrowRight, Star, MapPin, Clock, Quote } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import ProductGrid from '@/components/ProductGrid';
+import HeroSlider from '@/components/HeroSlider';
 import { getBestSellers, allProducts } from '@/data/products';
-import storeInteriorImg from '@/assets/store-interior.jpg';
-import storeFrontImg from '@/assets/store-front-real.jpg';
 import storeWideImg from '@/assets/store-wide.jpg';
 import attarShelf1 from '@/assets/attar-shelf-1.jpg';
 import attarShelf2 from '@/assets/attar-shelf-2.jpg';
 import goldenLampImg from '@/assets/golden-lamp.jpg';
-import storePerfumesDisplay from '@/assets/store-perfumes-display.jpg';
-import storeShelfArch from '@/assets/store-shelf-arch.jpg';
+import storeFrontImg from '@/assets/store-front-real.jpg';
 
 const sectionAnim = {
   initial: { opacity: 0, y: 40 },
@@ -32,14 +29,6 @@ const Index = () => {
   const signatureScents = allProducts.filter(p => p.isBestSeller).slice(0, 4);
   const reviews = allProducts.flatMap(p => p.reviews).slice(0, 6);
   const [currentReview, setCurrentReview] = useState(0);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
-
-  // Hero slideshow images
-  const heroSlides = [storeInteriorImg, storeFrontImg, storeWideImg, storePerfumesDisplay];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -48,95 +37,10 @@ const Index = () => {
     return () => clearInterval(timer);
   }, [reviews.length]);
 
-  useEffect(() => {
-    const slideTimer = setInterval(() => {
-      setCurrentSlide(prev => (prev + 1) % heroSlides.length);
-    }, 4500);
-    return () => clearInterval(slideTimer);
-  }, [heroSlides.length]);
-
   return (
     <div>
-      {/* ─── HERO ─── */}
-      <section ref={heroRef} className="relative h-[85vh] sm:h-screen min-h-[550px] sm:min-h-[700px] overflow-hidden">
-        {/* Slideshow Background */}
-        <div className="absolute inset-0 w-full h-full">
-          {heroSlides.map((slide, index) => (
-            <motion.img
-              key={index}
-              src={slide}
-              alt={`Dubai Perfumes Boutique Slide ${index + 1}`}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ y: heroY }}
-              animate={{ 
-                scale: [1, 1.08, 1],
-                opacity: currentSlide === index ? 1 : 0
-              }}
-              transition={{ 
-                scale: { duration: 20, repeat: Infinity, ease: 'easeInOut' },
-                opacity: { duration: 1, ease: 'easeInOut' }
-              }}
-            />
-          ))}
-        </div>
-        <div className="absolute inset-0 bg-white/10 dark:bg-black/50" />
-        <div className="absolute inset-0 bg-gradient-cinematic" />
-        <GoldenParticles />
-        {/* Text area gradient overlay */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 800px 600px at 50% 45%, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)'
-        }} />
-        <div className="relative h-full luxury-container flex flex-col justify-center items-center text-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: 'easeOut' }}
-            className="max-w-3xl"
-          >
-            <p className="text-accent-font text-sm sm:text-base md:text-lg tracking-[0.3em] sm:tracking-[0.4em] uppercase text-primary mb-4 sm:mb-8">
-              Luxury Fragrances
-            </p>
-            <motion.h1
-              className="font-brand text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-primary leading-[1.1] mb-3 sm:mb-4 gold-glow-text"
-              animate={{ textShadow: [
-                '0 0 40px hsl(38 35% 59% / 0.3), 0 0 80px hsl(38 35% 59% / 0.1)',
-                '0 0 60px hsl(38 35% 59% / 0.5), 0 0 120px hsl(38 35% 59% / 0.2)',
-                '0 0 40px hsl(38 35% 59% / 0.3), 0 0 80px hsl(38 35% 59% / 0.1)',
-              ] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              DUBAI PERFUMES
-            </motion.h1>
-            <p className="font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground leading-[1.2] mb-6 sm:mb-10">
-              Dubai Inspired Premium Fragrances
-            </p>
-            <p className="text-base sm:text-lg md:text-xl text-foreground/80 leading-relaxed mb-6 sm:mb-10">
-              Luxury scents crafted for timeless elegance.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center">
-              <Link
-                to="/shop"
-                className="btn-premium px-8 sm:px-12 py-3.5 sm:py-4 bg-primary text-primary-foreground font-semibold uppercase tracking-[0.15em] text-sm rounded-sm min-h-[44px]"
-              >
-                Shop Now
-              </Link>
-              <Link
-                to="/visit-store"
-                className="btn-premium px-8 sm:px-12 py-3.5 sm:py-4 border border-amber-500 text-primary dark:text-amber-500 font-semibold uppercase tracking-[0.15em] text-sm rounded-sm min-h-[44px] hover:bg-amber-500 hover:text-black transition-colors duration-300"
-              >
-                Visit Store
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <ArrowDown size={20} className="text-primary/60" />
-        </motion.div>
-      </section>
+      {/* ─── HERO SLIDER ─── */}
+      <HeroSlider />
 
       {/* ─── BRAND STORY ─── */}
       <section className="relative overflow-hidden">

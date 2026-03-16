@@ -9,7 +9,7 @@ import DeliveryEstimator from '@/components/DeliveryEstimator';
 
 const Checkout = () => {
   const { items, totalPrice, clearCart } = useCart();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, openLoginModal } = useAuth();
   const [placed, setPlaced] = useState(false);
   const [deliveryEstimate, setDeliveryEstimate] = useState('');
   const [giftData, setGiftData] = useState<GiftData>({
@@ -53,7 +53,12 @@ const Checkout = () => {
         <div className="space-y-6">
           {!isAuthenticated && (
             <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 text-sm">
-              <Link to="/login" className="text-primary font-semibold">Log in</Link>
+              <button
+                onClick={openLoginModal}
+                className="text-primary font-semibold hover:text-primary/80 transition-colors"
+              >
+                Log in
+              </button>
               <span className="text-muted-foreground"> for a faster checkout experience.</span>
             </div>
           )}
