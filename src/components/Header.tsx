@@ -1,5 +1,5 @@
-import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, User, Menu, X, Sun, Moon, Heart, ChevronDown, ChevronRight, ArrowLeft, MapPin, Phone } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ShoppingBag, User, Menu, X, Sun, Moon, Heart, ChevronDown, ChevronRight, ArrowLeft, MapPin, Phone, LogOut, Package } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -96,9 +96,10 @@ const Header = () => {
   const moreRef = useRef<HTMLDivElement>(null);
   const { totalItems } = useCart();
   const { count: wishlistCount } = useWishlist();
-  const { isAuthenticated, user, openLoginModal } = useAuth();
+  const { isAuthenticated, openLoginModal, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => { setMobileOpen(false); setMoreOpen(false); setPerfumesOpen(false); setMobileSubmenu(false); }, [location.pathname]);
 
@@ -256,20 +257,13 @@ const Header = () => {
               </Link>
 
               {/* Profile / Login — visible on ALL sizes including mobile */}
-              {isAuthenticated ? (
-                <span className="flex items-center gap-1.5 text-xs font-semibold text-primary uppercase tracking-widest max-w-[80px] truncate px-1">
-                  <User size={15} />
-                  <span className="hidden sm:inline">{user?.name || 'Account'}</span>
-                </span>
-              ) : (
-                <button
-                  onClick={openLoginModal}
-                  className="p-2 text-foreground hover:text-primary transition-colors"
-                  aria-label="Login"
-                >
-                  <User size={20} />
-                </button>
-              )}
+              <button
+                onClick={() => isAuthenticated ? navigate('/profile') : openLoginModal()}
+                className="p-2 rounded-full text-foreground hover:text-primary hover:scale-110 transition-all duration-200"
+                aria-label={isAuthenticated ? 'My Profile' : 'Login'}
+              >
+                <User size={20} className="sm:w-[22px] sm:h-[22px]" />
+              </button>
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -454,14 +448,25 @@ const Header = () => {
               </div>
 
               <div className="flex justify-center gap-8">
-                <button
-                  onClick={() => { openLoginModal(); closeMobile(); }}
-                  className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase transition-colors"
-                  style={{ color: 'rgba(245,245,245,0.45)', background: 'none', border: 'none', cursor: 'pointer' }}
-                >
-                  <User size={13} style={{ color: '#C6A96B' }} />
-                  {isAuthenticated ? (user?.name || 'Account') : 'Login'}
-                </button>
+                {isAuthenticated ? (
+                  <button
+                    onClick={() => { logout(); closeMobile(); }}
+                    className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase transition-colors"
+                    style={{ color: 'rgba(245,245,245,0.45)', background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    <LogOut size={13} style={{ color: '#C6A96B' }} />
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => { openLoginModal(); closeMobile(); }}
+                    className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase transition-colors"
+                    style={{ color: 'rgba(245,245,245,0.45)', background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    <User size={13} style={{ color: '#C6A96B' }} />
+                    Login
+                  </button>
+                )}
                 <Link
                   to="/wishlist"
                   onClick={closeMobile}

@@ -31,6 +31,7 @@ import VisitStore from "./pages/VisitStore";
 import AboutUs from "./pages/AboutUs";
 import Contact from "./pages/Contact";
 import Wishlist from "./pages/Wishlist";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,7 +53,7 @@ const AnimatedRoutes = () => {
         <Route path="/about" element={<PageTransition><AboutUs /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
-        {/* /login and /dashboard removed — show 404 */}
+        <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
